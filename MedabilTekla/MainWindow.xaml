@@ -1,0 +1,335 @@
+﻿<mui:ModernWindow x:Class="MedabilTekla.MainWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  Title="Gerar Pacote Tekla" 
+                  WindowStartupLocation="CenterScreen"
+                  Width="850"
+                  FontSize="11"
+                  Style="{StaticResource BlankWindow}" Loaded="ModernWindow_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu VerticalAlignment="Center" Background="Transparent">
+            <MenuItem Header="Input">
+                <MenuItem Header="Converter" Click="exporta_tipos"/>
+                <MenuItem Header="Visualizar" Click="ver_desenhos"/>
+
+            </MenuItem>
+            <MenuItem Header="Ferramentas">
+                <MenuItem Header="Exportar Dbase" Click="exporta_dbase"></MenuItem>
+                <MenuItem Header="Abrir um NC1" Click="abre_nc1_teste"/>
+                <MenuItem Header="Desmembrar CAM" Click="desmembrar_cam"/>
+                <MenuItem Header="Converter Externo" Click="converte_externo"/>
+                <MenuItem Header="Abrir DBase RAM" Click="abre_dbase"/>
+                <MenuItem Header="Abrir DBase SDS" Click="abre_dbase_sds"/>
+
+            
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="35"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Margin="5,5,5,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Click="abre_destino"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="4" Grid.Column="0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <Image  Width="16" Height="16" Source="Resources/folder-yellow.png" Margin="0,0,5,0"></Image>
+                        <Label Content="Destino:"  VerticalAlignment="Center"></Label>
+                    </WrapPanel>
+                </Button>
+                <TextBox VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="4" Grid.Column="1" Name="pasta_destino" IsEnabled="False" FontSize="10"></TextBox>
+                
+            </Grid>
+            <TabControl Grid.Row="1" Name="abas">
+                <TabItem Header="Origens" Name="origens">
+                    <Grid Margin="3,3,3,3" Name="setup_rme"  AllowDrop="True" Background="Transparent">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Button  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="0" Grid.Column="0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <Image  Width="16" Height="16" Source="Resources/folder-yellow.png" Margin="0,0,5,0"></Image>
+                                <Label Content="Input:"  VerticalAlignment="Center" HorizontalAlignment="Left"></Label>
+                            </WrapPanel>
+                        </Button>
+                        <TextBox Text="F:\Tekla\LIBERACAO_TIPOS" VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="0" Grid.Column="1" Name="pasta_input" IsEnabled="False" FontSize="10"></TextBox>
+                        <Button Click="set_pasta_input" VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="0" Grid.Column="2"  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <Image  Width="16" Height="16" Source="Resources/document-open-folder.png"></Image>
+                        </Button>
+
+
+                        <Button  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="1" Grid.Column="0" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <Image  Width="16" Height="16" Source="Resources/folder-yellow.png" Margin="0,0,5,0"></Image>
+                                <Label Content="Arquivo Report:"  VerticalAlignment="Center"></Label>
+                            </WrapPanel>
+                        </Button>
+                        <ComboBox IsEditable="False" VerticalAlignment="Center" Margin="2,2,2,2"  Grid.Row="1" Grid.Column="1" Name="arquivo_excel" Background="#FF79F7FD"  AllowDrop="True"  FontSize="10"></ComboBox>
+
+                        <Button  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="2" Grid.Column="0" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <Image  Width="16" Height="16" Source="Resources/folder-yellow.png" Margin="0,0,5,0"></Image>
+                                <Label Content="Arquivo Dbase:"  VerticalAlignment="Center"></Label>
+                            </WrapPanel>
+                        </Button>
+                        <ComboBox IsEditable="False" VerticalAlignment="Center" Margin="2,2,2,2"  Grid.Row="2" Grid.Column="1" Name="arquivo_dbase" Background="#FF79F7FD"  AllowDrop="True"  FontSize="10"></ComboBox>
+
+
+
+                        <Button  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="6" Grid.Column="0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <Image  Width="16" Height="16" Source="Resources/folder-yellow.png" Margin="0,0,5,0"></Image>
+                                <Label Content="NC1:"  VerticalAlignment="Center" HorizontalAlignment="Left"></Label>
+                            </WrapPanel>
+                        </Button>
+                        <TextBox VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="6" Grid.Column="1" Name="pasta_nc1_perfis" IsEnabled="False" FontSize="10"></TextBox>
+                        <!--<Button Click="setpasta_nc1_perfis" VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="6" Grid.Column="2"  Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <Image  Width="16" Height="16" Source="Resources/document-open-folder.png"></Image>
+                        </Button>-->
+
+
+
+
+
+                        <Button  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="7" Grid.Column="0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <Image  Width="16" Height="16" Source="Resources/folder-yellow.png" Margin="0,0,5,0"></Image>
+                                <Label Content="NC1 2:"  VerticalAlignment="Center" HorizontalAlignment="Left"></Label>
+                            </WrapPanel>
+                        </Button>
+                        <TextBox VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="7" Grid.Column="1" Name="pasta_nc1_chapas" IsEnabled="False" FontSize="10"></TextBox>
+
+
+
+                        <Button  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="8" Grid.Column="0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <Image  Width="16" Height="16" Source="Resources/folder-yellow.png" Margin="0,0,5,0"></Image>
+                                <Label Content="CAMs:"  VerticalAlignment="Center" HorizontalAlignment="Left"></Label>
+                            </WrapPanel>
+                        </Button>
+                        <TextBox VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="8" Grid.Column="1" Name="pasta_cams" IsEnabled="False" FontSize="10"></TextBox>
+
+
+                        <Button  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="9" Grid.Column="0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <Image  Width="16" Height="16" Source="Resources/folder-yellow.png" Margin="0,0,5,0"></Image>
+                                <Label Content="NC1=>CAM:"  VerticalAlignment="Center" HorizontalAlignment="Left"></Label>
+                            </WrapPanel>
+                        </Button>
+                        <TextBox VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="9" Grid.Column="1" Name="pasta_nc1_to_cams" IsEnabled="False" FontSize="10"></TextBox>
+
+
+
+                        <CheckBox x:Name="marcas_simples" Grid.Row="10" Grid.Column="1" Content="Marcas Simples Sem prancha de fabricação" IsChecked="True"></CheckBox>
+
+
+
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Selecione a(s) Etapa(s)" Name="selecao_pecas">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="250"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="25"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <ListView x:Name="lista_etapas" SelectionMode="Multiple" SelectionChanged="lista_etapas_SelectionChanged"></ListView>
+                        <ListView x:Name="lista_marcas" Grid.Row="1"></ListView>
+                        <CheckBox x:Name="juntar_etapas" Content="Juntar Etapas num arquivo único" Grid.Row="10" HorizontalAlignment="Right"></CheckBox>
+                    </Grid>
+                </TabItem>
+                <!--<TabItem Header="Converter NC1 => CAM" Name="conversao" Visibility="Collapsed">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="25"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <ListView Name="status_nc1"></ListView>
+                        <WrapPanel  Margin="2,2,2,2" Grid.Row="2" HorizontalAlignment="Right">
+                            <Button Click="gerar_cams" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="2" Grid.Column="0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                                <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                                    <Image  Width="16" Height="16" Source="Resources/dialog-ok-apply.png" Margin="0,0,5,0"></Image>
+                                    <Label Content="Gerar e Visualizar!"  VerticalAlignment="Center" HorizontalAlignment="Left"></Label>
+                                </WrapPanel>
+                            </Button>
+                        </WrapPanel>
+                    </Grid>
+                </TabItem>-->
+                <TabItem Header="Gerar Report SAP" Name="report">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Grid.Row="0" Name="lista_verificacao_report">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="Black" BorderThickness="1,1,1,1" CornerRadius="4,4,4,4" Margin="5,5,5,5">
+
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="Background">
+                                                            <Setter.Value>
+                                                                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" Opacity="0.2">
+                                                                    <GradientStop Color="#FF9DD1F5" Offset="0" />
+                                                                    <GradientStop Color="White" Offset="0.523" />
+                                                                    <GradientStop Color="#FF9DD1F5" Offset="0.986" />
+                                                                </LinearGradientBrush>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Tipo}" Value="Erro">
+                                                                <Setter Property="Background">
+                                                                    <Setter.Value>
+                                                                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" Opacity="0.2">
+                                                                            <GradientStop Color="#FFFFA31F" Offset="0" />
+                                                                            <GradientStop Color="White" Offset="0.523" />
+                                                                            <GradientStop Color="#FFC7FFA7" Offset="0.986" />
+                                                                        </LinearGradientBrush>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Tipo}" Value="Crítico">
+                                                                <Setter Property="Background">
+                                                                    <Setter.Value>
+                                                                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" Opacity="0.2">
+                                                                            <GradientStop Color="#FFF59D9D" Offset="0" />
+                                                                            <GradientStop Color="White" Offset="0.523" />
+                                                                            <GradientStop Color="#FFF59D9D" Offset="0.986" />
+                                                                        </LinearGradientBrush>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Tipo}" Value="Status">
+                                                                <Setter Property="Background">
+                                                                    <Setter.Value>
+                                                                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" Opacity="0.2">
+                                                                            <GradientStop Color="#FF9DB5F5" Offset="0" />
+                                                                            <GradientStop Color="White" Offset="0.523" />
+                                                                            <GradientStop Color="#FF9DB5F5" Offset="0.986" />
+                                                                        </LinearGradientBrush>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Tipo}" Value="Alerta">
+                                                                <Setter Property="Background">
+                                                                    <Setter.Value>
+                                                                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" Opacity="0.2">
+                                                                            <GradientStop Color="#FFF5F59D" Offset="0" />
+                                                                            <GradientStop Color="White" Offset="0.523" />
+                                                                            <GradientStop Color="#FFF5F59D" Offset="0.986" />
+                                                                        </LinearGradientBrush>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="50"></ColumnDefinition>
+                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Image  Source="{Binding Imagem}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,2,2,2"/>
+
+                                                    <Grid Grid.Column="2" Margin="5,0,0,0">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="25"></RowDefinition>
+                                                            <RowDefinition Height="*"></RowDefinition>
+                                                        </Grid.RowDefinitions>
+                                                        <WrapPanel VerticalAlignment="Center" Margin="10,2,2,2">
+                                                            <TextBlock Margin="5,0,0,0" FontWeight="Bold" Padding="3,0,0,0" Text="{Binding Tipo}" VerticalAlignment="Center" />
+                                                            <TextBlock Margin="5,0,0,0" FontWeight="Bold" Padding="3,0,0,0" Text="{Binding Propriedades}" VerticalAlignment="Center" />
+                                                        </WrapPanel>
+                                                        <TextBlock  Margin="10,2,2,2" Grid.Row="1" FontSize="14" Padding="3,0,0,0" Text="{Binding Descricao}" VerticalAlignment="Center" TextWrapping="Wrap" />
+                                                    </Grid>
+                                                </Grid>
+
+                                            </Border>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <!--<DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Imagem}" Width="16" Height="16" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+                                <!--<DataGridTextColumn Header="Propriedades" Binding="{Binding Propriedades}" />-->
+                                <!--<DataGridTextColumn Header="Descrição" Binding="{Binding Descricao}" />-->
+                            </DataGrid.Columns>
+                            <!--<DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Tipo}" Value="Status">
+                                <Setter Property="Background" Value="SkyBlue"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Tipo}" Value="Alerta">
+                                <Setter Property="Background" Value="Yellow"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Tipo}" Value="Erro">
+                                <Setter Property="Background" Value="SandyBrown"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Tipo}" Value="Crítico">
+                                <Setter Property="Background" Value="Salmon"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>-->
+                        </DataGrid>
+                        <Button Click="gerar_excel" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="2" Grid.Column="0"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                            <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <Image  Width="16" Height="16" Source="Resources/dialog-ok-apply.png" Margin="0,0,5,0"></Image>
+                                <Label Content="Gerar Report SAP!"  VerticalAlignment="Center" HorizontalAlignment="Left"></Label>
+                            </WrapPanel>
+                        </Button>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+            <WrapPanel Grid.Row="10" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="3,3,3,3">
+                <Button x:Name="bt_anterior" Click="Button_Click"  VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="10" Grid.Column="1" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image  Width="16" Height="16" Source="Resources/arrow-left.png" />
+                        <TextBlock Text="Anterior" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button x:Name="bt_proximo" Click="Button_Click_1"  VerticalAlignment="Center" Margin="2,2,2,2" Grid.Row="10" Grid.Column="1" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Próximo" VerticalAlignment="Center"/>
+                        <Image  Width="16" Height="16" Source="Resources/arrow-right.png"/>
+                    </StackPanel>
+                </Button>
+            </WrapPanel>
+        </Grid>
+    </Grid>
+</mui:ModernWindow>
