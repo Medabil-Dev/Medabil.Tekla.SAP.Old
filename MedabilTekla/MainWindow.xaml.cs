@@ -148,15 +148,15 @@ namespace MedabilTekla
             var subcams = cams.SelectMany(x => x.GetSubCams()).Select(x => this.PastaCAMs() + x + ".CAM").ToList();
             return subcams;
         }
-        public List<DLM.encoder.Marca> GetMarcas()
+        public List<Marca> GetMarcas()
         {
-            return this.lista_marcas.Items.Cast<DLM.encoder.Marca>().ToList().FindAll(x => x.Descr.ToUpper() != "RM");
+            return this.lista_marcas.Items.Cast<Marca>().ToList().FindAll(x => x.Descr.ToUpper() != "RM");
         }
-        public List<DLM.encoder.Marca> GetMarcasRM()
+        public List<Marca> GetMarcasRM()
         {
-            return this.lista_marcas.Items.Cast<DLM.encoder.Marca>().ToList().FindAll(x => x.Descr.ToUpper() == "RM");
+            return this.lista_marcas.Items.Cast<Marca>().ToList().FindAll(x => x.Descr.ToUpper() == "RM");
         }
-        public List<DLM.encoder.Posicao> GetPosicoes()
+        public List<Posicao> GetPosicoes()
         {
             return this.GetMarcas().SelectMany(x => x.Posicoes).GroupBy(x => x.Nome).Select(x => x.First()).ToList();
         }
