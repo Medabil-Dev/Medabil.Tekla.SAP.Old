@@ -80,9 +80,9 @@ namespace MedabilTekla
                     MessageBox.Show("Nenhuma marca encontrada no arquivo\n " + this.arquivo_excel.Text);
                 }
 
-                this.dbase = new dbTEKLA(this.arquivo_dbase.Text);
 
-                if(this.dbase.Perfis.Count==0)
+
+                if(Conexoes.DBases.GetdbPerfil().GetPerfisTekla().Count==0)
                 {
                     MessageBox.Show("Nenhum perfil encontrado no arquivo\n " + this.arquivo_dbase.Text);
                 }
@@ -234,9 +234,9 @@ namespace MedabilTekla
             var cams = pos.Select(x => this.PastaCAMs() + x + ".CAM").ToList();
             return cams;
         }
-        public List<ReadCam> GetCAMS()
+        public List<ReadCAM> GetCAMS()
         {
-            return this.GetArqCams().FindAll(x => File.Exists(x)).Select(x => new ReadCam(x)).ToList();
+            return this.GetArqCams().FindAll(x => File.Exists(x)).Select(x => new ReadCAM(x)).ToList();
         }
         private void UpdateAbas()
         {
@@ -301,7 +301,7 @@ namespace MedabilTekla
             List<DLM.cam.NC1> retorno = new List<DLM.cam.NC1>();
             foreach(var s in this.ArqsNC1s())
             {
-                DLM.cam.NC1 pr = new DLM.cam.NC1(s, this.dbase);
+                DLM.cam.NC1 pr = new DLM.cam.NC1(s);
                 retorno.Add(pr);
             }
             return retorno;
@@ -317,7 +317,7 @@ namespace MedabilTekla
             
         }
         public List<string> errosNC1 { get; set; } = new List<string>();
-        public List<DLM.cam.ReadCam> Cams { get; set; } = new List<DLM.cam.ReadCam>();
+        public List<DLM.cam.ReadCAM> Cams { get; set; } = new List<DLM.cam.ReadCAM>();
         private void gerar_cams(object sender, RoutedEventArgs e)
         {
             //this.Cams.Clear();
@@ -389,7 +389,7 @@ namespace MedabilTekla
                 Utilz.ShowReports(this.Pacote.Reports);
             }
         }
-        public dbTEKLA dbase { get; set; }
+
         private void set_pasta_input(object sender, RoutedEventArgs e)
         {
             var pasta  = Utilz.Selecao.SelecionarPasta("Selecione", this.pasta_input.Text);
@@ -445,7 +445,6 @@ namespace MedabilTekla
         {
             if (input_existe())
             {
-                this.dbase = null;
                 this.arquivo_dbase.ItemsSource = null;
                 this.get_pasta_destino();
                 this.arquivo_dbase.ItemsSource = Utilz.GetArquivos(this.pasta_input.Text, "profiles.lis", SearchOption.AllDirectories);
@@ -492,17 +491,7 @@ namespace MedabilTekla
             }
         }
 
-        private void exporta_dbase(object sender, RoutedEventArgs e)
-        {
-            if(Verifica_Aba_0())
-            {
-                var destino = Utilz.SalvarArquivo("csv");
-                if(destino!="" && destino!=null && this.dbase!=null)
-                {
-                    this.dbase.ExportarDbaseCSV(destino);
-                }
-            }
-        }
+
 
         private void ModernWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -532,7 +521,7 @@ namespace MedabilTekla
 
                     var destino = PastaConvertidos() + "Perfis.csv";
                     var errosarq = PastaConvertidos() + "__Erros.txt";
-                    if (destino != "" && destino != null && this.dbase != null)
+                    if (destino != "" && destino != null)
                     {
 
                         var w = Utilz.Wait(sel.Count);
@@ -540,9 +529,9 @@ namespace MedabilTekla
                         List<Report> erros = new List<Report>();
                         foreach(var s in sel)
                         {
-                            if(s.GetPerfilTekla().TipoCAM!= CAM_PERFIL_TIPO._Desconhecido && s.GetPerfilTekla().TipoCAM != CAM_PERFIL_TIPO._Erro)
+                            if(s.GetPerfilTekla().GetTipoCAM() != CAM_PERFIL_TIPO._Desconhecido && s.GetPerfilTekla().GetTipoCAM() != CAM_PERFIL_TIPO._Erro)
                             {
-                                var pasta = Utilz.CriarPasta(Conexoes.Utilz.getPasta(destino),s.GetPerfilTekla().TipoCAM.ToString());
+                                var pasta = Utilz.CriarPasta(Conexoes.Utilz.getPasta(destino),s.GetPerfilTekla().GetTipoCAM().ToString());
                                 if (s.Status != "")
                                 {
                                     erros.Add(new Report("Erro", $"[{s.Nome}] -> {s.Status}", TipoReport.Alerta));
@@ -607,9 +596,8 @@ namespace MedabilTekla
             var sel = Utilz.Abrir_String("*", "");
             if(sel.Existe())
             {
-                DLM.cam.dbRAM p = new dbRAM(sel);
+                Conexoes.DBases.GetdbPerfil().GetPerfisSDS(true,sel);
             }
-
         }
 
         private void abre_dbase_sds(object sender, RoutedEventArgs e)
@@ -617,8 +605,25 @@ namespace MedabilTekla
             var sel = Utilz.Abrir_String("*", "");
             if (sel.Existe())
             {
-                DLM.cam.dbSDS p = new dbSDS(sel);
+                Conexoes.DBases.GetdbPerfil().GetPerfisSDS(true,sel);
             }
+        }
+
+        private void abre_dbase_tecnometal(object sender, RoutedEventArgs e)
+        {
+            var sel = Utilz.Abrir_String("DBF", "");
+            if (sel.Existe())
+            {
+                Conexoes.DBases.GetdbPerfil().GetPerfisTecnoMetal(true, sel);
+               var S = Conexoes.DBases.GetdbPerfil().GetPerfisTecnoMetal()[0].TipoCAM;
+
+
+            }
+        }
+
+        private void consultar_materiais_epi(object sender, RoutedEventArgs e)
+        {
+            var t = DLM.sap.RfcsSAP.ConsultarMateriais("ZHIB");
         }
     }
 }

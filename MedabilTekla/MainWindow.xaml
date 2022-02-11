@@ -13,20 +13,19 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Menu VerticalAlignment="Center" Background="Transparent">
-            <MenuItem Header="Input">
+            <MenuItem Header="Input" Background="Transparent">
                 <MenuItem Header="Converter" Click="exporta_tipos"/>
                 <MenuItem Header="Visualizar" Click="ver_desenhos"/>
 
             </MenuItem>
-            <MenuItem Header="Ferramentas">
-                <MenuItem Header="Exportar Dbase" Click="exporta_dbase"></MenuItem>
+            <MenuItem Header="Ferramentas" Background="Transparent">
                 <MenuItem Header="Abrir um NC1" Click="abre_nc1_teste"/>
                 <MenuItem Header="Desmembrar CAM" Click="desmembrar_cam"/>
                 <MenuItem Header="Converter Externo" Click="converte_externo"/>
                 <MenuItem Header="Abrir DBase RAM" Click="abre_dbase"/>
                 <MenuItem Header="Abrir DBase SDS" Click="abre_dbase_sds"/>
-
-            
+                <MenuItem Header="Abrir DBase TecnoMetal" Click="abre_dbase_tecnometal"/>
+                <MenuItem Header="Abrir DBase TecnoMetal" Click="consultar_materiais_epi"/>
             </MenuItem>
         </Menu>
         <Grid Grid.Row="10">
