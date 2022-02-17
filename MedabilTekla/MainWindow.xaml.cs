@@ -625,5 +625,10 @@ namespace MedabilTekla
         {
             var t = DLM.sap.RfcsSAP.ConsultarMateriais("ZHIB");
         }
+
+        private void exporta_dbprof(object sender, RoutedEventArgs e)
+        {
+            Conexoes.DBases.GetdbPerfil().ExportarDBTecnoMetal();
+        }
     }
 }

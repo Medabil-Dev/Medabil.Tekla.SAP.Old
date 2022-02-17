@@ -25,7 +25,7 @@
                 <MenuItem Header="Abrir DBase RAM" Click="abre_dbase"/>
                 <MenuItem Header="Abrir DBase SDS" Click="abre_dbase_sds"/>
                 <MenuItem Header="Abrir DBase TecnoMetal" Click="abre_dbase_tecnometal"/>
-                <MenuItem Header="Abrir DBase TecnoMetal" Click="consultar_materiais_epi"/>
+                <MenuItem Header="Exportar DBase TecnoMetal" Click="exporta_dbprof"/>
             </MenuItem>
         </Menu>
         <Grid Grid.Row="10">
