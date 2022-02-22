@@ -14,9 +14,7 @@
         </Grid.RowDefinitions>
         <Menu VerticalAlignment="Center" Background="Transparent">
             <MenuItem Header="Input" Background="Transparent">
-                <MenuItem Header="Converter" Click="exporta_tipos"/>
                 <MenuItem Header="Visualizar" Click="ver_desenhos"/>
-
             </MenuItem>
             <MenuItem Header="Ferramentas" Background="Transparent">
                 <MenuItem Header="Abrir um NC1" Click="abre_nc1_teste"/>

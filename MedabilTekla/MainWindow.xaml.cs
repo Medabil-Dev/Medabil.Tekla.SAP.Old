@@ -508,53 +508,7 @@ namespace MedabilTekla
         }
         private void exporta_tipos(object sender, RoutedEventArgs e)
         {
-            if(!input_existe())
-            {
-                MessageBox.Show("Selecione um input.");
-                return;
-            }
-            if (Verifica_Aba_0())
-            {
-            var sel = Utilz.Selecao.SelecionarObjetos(this.GetNC1s(),true, "Selecione");
-                if(sel.Count>0)
-                {
 
-                    var destino = PastaConvertidos() + "Perfis.csv";
-                    var errosarq = PastaConvertidos() + "__Erros.txt";
-                    if (destino != "" && destino != null)
-                    {
-
-                        var w = Utilz.Wait(sel.Count);
-                        w.Show();
-                        List<Report> erros = new List<Report>();
-                        foreach(var s in sel)
-                        {
-                            if(s.GetPerfilTekla().GetTipoCAM() != CAM_PERFIL_TIPO._Desconhecido && s.GetPerfilTekla().GetTipoCAM() != CAM_PERFIL_TIPO._Erro)
-                            {
-                                var pasta = Utilz.CriarPasta(Conexoes.Utilz.getPasta(destino),s.GetPerfilTekla().GetTipoCAM().ToString());
-                                if (s.Status != "")
-                                {
-                                    erros.Add(new Report("Erro", $"[{s.Nome}] -> {s.Status}", TipoReport.Alerta));
-                                }
-                            }
-                            else
-                            {
-                                erros.Add(new Report("Tipo de perfil não suportado.", $"[{s.Nome}] -> [{s.NomePerfil}] -> [Type: {s.GetPerfilTekla().Type} Subtype:{s.GetPerfilTekla().SubType}]", TipoReport.Alerta));
-                            }
-                            w.somaProgresso();
-                        }
-                        w.Close();
-
-                        
-                        if (erros.Count > 0)
-                        {
-                            Utilz.Arquivo.Gravar(errosarq, erros.Select(x => DateTime.Now.ToString() + " =====> " + x.Propriedades.PadRight(50, ' ') + "|" + x.Descricao).ToList());
-                            Utilz.Abrir(errosarq);
-
-                        }
-                    }
-                }
-            }
         }
 
         private void abre_destino(object sender, RoutedEventArgs e)
