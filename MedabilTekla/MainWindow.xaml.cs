@@ -569,7 +569,7 @@ namespace MedabilTekla
             if (sel.Existe())
             {
                 Conexoes.DBases.GetdbPerfil().GetPerfisTecnoMetal(true, sel);
-               var S = Conexoes.DBases.GetdbPerfil().GetPerfisTecnoMetal()[0].TipoCAM;
+               var S = Conexoes.DBases.GetdbPerfil().GetPerfisTecnoMetal()[0].Tipo;
 
 
             }
