@@ -119,9 +119,9 @@ namespace MedabilTekla
                 }
                 else
                 {
-                    this.Pacote = new DLM.ep.EP_Tekla(this.arquivo_excel.Text, this.PastaCAMs(), (bool)marcas_simples.IsChecked);
+                    this.Pacote = new DLM.ep.EP_Pacote(PacoteEPTipo.Tekla, this.arquivo_excel.Text, (bool)marcas_simples.IsChecked,false,this.PastaCAMs());
                     this.Pacote.Destino = this.pasta_destino.Text;
-                    this.Pacote.GetMarcas(this.GetMarcas());
+                    this.Pacote.GetMarcasTekla(this.GetMarcas());
                     var ver = this.Pacote.Verificar();
                     this.lista_verificacao_report.ItemsSource = null;
                     this.lista_verificacao_report.ItemsSource = ver;
@@ -162,7 +162,7 @@ namespace MedabilTekla
         }
         public List<string> Etapas()
         {
-            return this.Excel.Marcas.Select(x => x.Etapa).Distinct().ToList();
+            return this.Excel.Marcas.Select(x => x.GetEtapa()).Distinct().ToList();
         }
         public List<string> ArqsNC1s()
         {
@@ -186,7 +186,7 @@ namespace MedabilTekla
         }
 
         public DLM.encoder.EXCEL Excel { get; set; }
-        public DLM.ep.EP_Tekla Pacote { get; set; } = new DLM.ep.EP_Tekla();
+        public DLM.ep.EP_Pacote Pacote { get; set; } = new DLM.ep.EP_Pacote();
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
 
@@ -311,7 +311,7 @@ namespace MedabilTekla
         {
             var etapas = this.lista_etapas.SelectedItems.Cast<string>().ToList();
             this.lista_marcas.ItemsSource = null;
-            this.lista_marcas.ItemsSource = this.Excel.Marcas.FindAll(x => etapas.Find(y => y == x.Etapa) != null).ToList();
+            this.lista_marcas.ItemsSource = this.Excel.Marcas.FindAll(x => etapas.Find(y => y == x.GetEtapa()) != null).ToList();
 
             
             
@@ -378,8 +378,8 @@ namespace MedabilTekla
                 MessageBox.Show($"Há {erros_criticos.Count} erros críticos que necessitam ser corrigidos para poder gerar.");
                 return;
             }
-            this.Pacote = new DLM.ep.EP_Tekla(this.arquivo_excel.Text, this.PastaCAMs(), (bool)marcas_simples.IsChecked);
-            this.Pacote.GetMarcas(this.GetMarcas());
+            this.Pacote = new DLM.ep.EP_Pacote( PacoteEPTipo.Tekla,this.arquivo_excel.Text, (bool)marcas_simples.IsChecked,false,this.PastaCAMs());
+            this.Pacote.GetMarcasTekla(this.GetMarcas());
             if (this.Pacote.GerarPacote(this.pasta_destino.Text, true,true))
             {
                 MessageBox.Show("Pacote gerado!");
