@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1684
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedabilTekla", "MedabilTekla\MedabilTekla.csproj", "{275F42C9-FA86-4E92-98B7-0170B842EC9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tekla_SAP", "MedabilTekla\Tekla_SAP.csproj", "{275F42C9-FA86-4E92-98B7-0170B842EC9B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testes", "Testes\Testes.csproj", "{52D7B36C-9538-4A7A-A4CC-2BFCDA41D92E}"
 EndProject
